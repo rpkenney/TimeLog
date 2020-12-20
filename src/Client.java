@@ -4,20 +4,40 @@ import java.util.*;
 import java.io.*;
 import java.nio.file.*;
 
+/**
+ * Clinet.java
+ * 
+ * This class creates an individual client, allows for the
+ * loading and saving of old and new data, along
+ * with the formatting of a client monthly report
+ * 
+ * @author Robert Kenney
+ */
 public class Client{
 
+    /** the file extension for the client data files */
     public static final String FILE_EXTENSION = ".txt";
 
+    /** the file path for the client data files */
     public static final String FILE_PATH = "clients/";
 
+    /** the numbers of characters per line for the monthly report */
     public static final int CHARACTERS_PER_LINE = 50;
 
+    /** the name of he client */
     private String name;
 
+    /** an array list containing all of the entries that have been made */
     private ArrayList<Entry> entries;
 
+    /** the number of entries for this client */
     private int numEntries;
 
+    /**
+     * This constructor initializes the client by assigning its name,
+     * and loading any old entries for it from savefiles
+     * @param name
+     */
     public Client(String name){
         this.name = name;
 
@@ -26,13 +46,26 @@ public class Client{
         load();
     }
 
-    public void addEntry(int day, int month, int year, double timeSpent, Category[] categories){
-        Date date = new Date(day, month, year);
+    /**
+     * This method adds an entry for the client, and saves it to memory
+     * @param date the date of the entry
+     * @param timeSpent the time spent on that date
+     * @param categories the categories that were worked on for the client
+     */
+    public void addEntry(Date date, double timeSpent, Category[] categories){
         entries.add(new Entry(date, categories, timeSpent));
         numEntries++;
         save();
     }
 
+    /**
+     * this method generates and returns the monthly report for the client, 
+     * consisting of total time spent, and quantities and descriptions for
+     * each category of work that was done for the client
+     * @param month the month of the report
+     * @param year the year of the report
+     * @return the report itself
+     */
     public String getMonthlyReport(int month, int year){
         String report = "";
         if(numEntries > 0){
@@ -45,7 +78,10 @@ public class Client{
         return report;
     }
 
-
+    /**
+     * this method saves all of the clients current data
+     * to memory
+     */
     public void save(){
         PrintWriter out = null;
         try {
@@ -62,7 +98,7 @@ public class Client{
             for(int c = 0; c < Entry.NUM_CATEGORIES; c++){
                 Category category = entry.getCategory(c);
                 if(category != null && category.getDescription() != null){
-                    if(category.getQuantity() > 0){
+                    if(category.hasQuantity()){
                         out.print(category.getQuantity() + " ");
                     }
                     out.println(category.getDescription());
@@ -74,6 +110,10 @@ public class Client{
         out.close();
     }
 
+    /**
+     * this method loads all of the clients saved
+     * memory, allowing for it to be incorported in monthly reports
+     */
     public void load(){
         String file = FILE_PATH + name + FILE_EXTENSION;
 
@@ -122,15 +162,31 @@ public class Client{
         }
     }
 
+    /**
+     * this method allows for all data and about the client
+     * that is saved, to be deleted
+     */
     public void delete(){
         File file = new File(FILE_PATH + name + FILE_EXTENSION); 
         file.delete();
     }
 
+    /**
+     * returns the name of the client
+     * @return the name of the client
+     */
     public String getName(){
         return name;
     }
 
+    /**
+     * This method breaks down each of the categories of work that was
+     * done for a client in a given month, and generates a comma seperated list
+     * of each category and returns this information
+     * @param month the month of the work
+     * @param year the year of the work
+     * @return the string containing all of the data
+     */
     public String getCategoriesString(int month, int year){
         String str = "";
         String[] categoryDescriptions = new String[Entry.NUM_CATEGORIES];
@@ -168,6 +224,12 @@ public class Client{
         return str;
     }
 
+    /**
+     * This method splits up long strings into multiple lines,
+     * ensuring that the report is in a format that is readable
+     * @param str the string to be splitup
+     * @return the string in multiple lines
+     */
     public String splitIntoLines(String str){
         String lines = "";
         Scanner scnr = new Scanner(str);
@@ -187,6 +249,14 @@ public class Client{
         
         return lines;
     }
+
+    /**
+     * this method returns the total time spent working
+     * for this client in a given month
+     * @param month the month in question
+     * @param year the year of that month
+     * @return the total time spent on that client that month
+     */
     public int getTimeSpent(int month, int year){
         int sum = 0;
         for(int i = 0; i < numEntries; i++){
@@ -198,6 +268,12 @@ public class Client{
         return sum;
     }
 
+    /**
+     * this method returns the total time spent working
+     * for this client in a given year
+     * @param year the year in question
+     * @return the total time working for the client that year
+     */
     public int getTimeSpent(int year){
         int sum = 0;
         for(int i = 0; i < numEntries; i++){

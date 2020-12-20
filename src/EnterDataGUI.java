@@ -204,7 +204,8 @@ public class EnterDataGUI extends JFrame implements ActionListener, MouseListene
             if(client != -1 && timelog.isValidDay(day, month) && timelog.isValidMonth(month) && timelog.isValidYear(year) && timelog.isValidTime(timeSpent)){
                 selectedCategory = Entry.CATEGORIES[category];
                 selectedClient = timelog.getClientNames()[client];
-                timelog.getClient(client).addEntry(day, month, year, timeSpent, categories);
+                Date date = new Date(day, month, year);
+                timelog.getClient(client).addEntry(date, timeSpent, categories);
                 status.setText("Logged for " + selectedClient);
                 categories = new Category[Entry.NUM_CATEGORIES];
                 queue.setText("(0 activities in queue)");
