@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.util.*;
 
 public class ClientBreakdown{
+
+    public static final int CHARS_PER_LINE = 70;
 
     private double timeSpent;
 
@@ -72,7 +75,7 @@ public class ClientBreakdown{
         for(int c = 0; c < taskCatgeories.toArray().length; c++){
             
             if(getCategoryString(taskCatgeories.get(c)) != null){
-                str += getCategoryString(taskCatgeories.get(c));
+                str += format(getCategoryString(taskCatgeories.get(c)));
                 str += "\n";
             }
         }
@@ -140,6 +143,29 @@ public class ClientBreakdown{
         if(quantity == 0 && numDescriptions == 0){
             return null;
         }
+        return str;
+    }
+
+    public String format(String line){
+        Scanner lineScan = new Scanner(line);
+
+        String str = "";
+        int charCount = 0;
+        while(lineScan.hasNext()){
+            String word = lineScan.next();
+
+            str += word;
+            charCount += word.length();
+
+            if(charCount > CHARS_PER_LINE){
+                str += "\n";
+                charCount = 0;
+            } else {
+                str += " ";
+            }
+            
+        }
+
         return str;
     }
 }
