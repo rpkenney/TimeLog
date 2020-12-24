@@ -1,2 +1,2 @@
-java -cp bin TimeLogGUI
+java -cp bin TimeLoggerGUI
 pause

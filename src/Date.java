@@ -1,54 +1,27 @@
-/**
- * Date.java
- * 
- * This class represents an individual date, 
- * containing a day, month, and year
- */
 public class Date{
 
-    /** The number of quantities stored in the date(being day, month, year) */
-    public static final int NUM_QUANTITIES = 3;
+    public static final String DISPLAY = "/";
 
-    /** the value of the day */
+    public static final String SAVE = " ";
+
+    public static final int NUM_MONTHS = 12;
+
+    public static final int DAYS_IN_MONTH = 31;
+
+    public static final String[] MONTH_NAMES = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
     private int day;
-    
-    /** the value of the month */
+
     private int month;
 
-    /** the value of the year */
     private int year;
 
-    /**
-     * This constructor assigns values to the day, month and year
-     * @param day the day
-     * @param month the month
-     * @param year the year
-     */
     public Date(int day, int month, int year){
         this.day = day;
         this.month = month;
         this.year = year;
     }
 
-    /**
-     * this method converts the date to a string, to be displayed in reports
-     */
-    public String toString(){
-        String str = "";
-        str += day;
-        str += " ";
-        str += month;
-        str += " ";
-        str += year;
-        return str;
-    }
-
-    /**
-     * This method returns whether the date is within a given month and year
-     * @param month the month in question
-     * @param year the year in question
-     * @return true if the date is within the month and year, false otherwise
-     */
     public boolean isWithin(int month, int year){
         if(this.month == month && this.year == year){
             return true;
@@ -56,15 +29,59 @@ public class Date{
         return false;
     }
     
-    /**
-     * This method returns whether the date is within a given year
-     * @param year true if the date is within the year, false otherwise
-     * @return 
-     */
     public boolean isWithin(int year){
         if(this.year == year){
             return true;
         }
         return false;
+    }
+
+    public boolean equals(Object o) {
+        if (o instanceof Date) {
+            Date other = (Date)o;
+            if(day == other.day && month == other.month && year == other.year) {   
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public String toString(String seperator){
+        String str = "";
+        str += day;
+        str += seperator;
+        str += month;
+        str += seperator;
+        str += year;
+
+        return str;
+    }
+
+    public String toMonthDayYear(){
+        String str = "";
+        str += month;
+        str += DISPLAY;
+        str += day;
+        str += DISPLAY;
+        str += year;
+        
+        return str;
+    }
+
+    public int getDay(){
+        return day;
+    }
+
+    public int getMonth(){
+        return month;
+    }
+
+    public int getYear(){
+        return year;
     }
 }
