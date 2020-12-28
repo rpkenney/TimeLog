@@ -1,5 +1,5 @@
 # TimeLog
-Manages data basing and formatting of detailed descriptions of monthly, and yearly work for independent contractor
+Manages data basing and formatting of detailed descriptions of monthly, and yearly work for independent contractors.
 
 Allows the user to input their work on a multitude of tasks on a particular day, for individual clients. They can add and remove both clients, and categories of tasks as they please, to be used in later entries. Entries can be edited and removed after they are submitted.
 
